@@ -2,7 +2,8 @@ import Vuex from 'vuex';
 import {createLocalVue, mount} from '@vue/test-utils';
 import RestaurantList from '@/components/RestaurantList';
 
-const findByTestId = (wrapper, testId, index) => wrapper.findAll(`[data-testid="${testId}"]`).at(index);
+const findByTestId = (wrapper, testId, index) =>
+  wrapper.findAll(`[data-testid="${testId}"]`).at(index);
 
 describe('RestaurantList', () => {
   const records = [
@@ -39,6 +40,5 @@ describe('RestaurantList', () => {
   it('displays the restaurants', () => {
     expect(findByTestId(wrapper, 'restaurant', 0).text()).toBe('Sushi Place');
     expect(findByTestId(wrapper, 'restaurant', 1).text()).toBe('Pizza Place');
-
   });
 });
