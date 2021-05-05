@@ -4,8 +4,13 @@ import Vuex from 'vuex';
 import {createLocalVue, mount} from '@vue/test-utils';
 import RestaurantList from '@/components/RestaurantList';
 
-const findByTestId = (wrapper, testId, index) =>
-  wrapper.findAll(`[data-testid="${testId}"]`).at(index);
+const findByTestId = (wrapper, testId, index) => {
+  if (typeof index === 'undefined') {
+    return wrapper.find(`[data-testid="${testId}"]`);
+  } else {
+    return wrapper.findAll(`[data-testid="${testId}"]`).at(index);
+  }
+};
 
 describe('RestaurantList', () => {
   Vue.use(Vuetify);
@@ -19,29 +24,54 @@ describe('RestaurantList', () => {
   let restaurantsModule;
   let wrapper;
 
-  beforeEach(() => {
+  const mountWithStore = (state = {records, loading: false}) => {
     restaurantsModule = {
       namespaced: true,
-      state: {records},
+      state,
       actions: {
         load: jest.fn().mockName('load'),
       },
     };
-
     const store = new Vuex.Store({
       modules: {
         restaurants: restaurantsModule,
       },
     });
+    wrapper = mount(RestaurantList, {localVue, store, vuetify: new Vuetify()});
+  };
 
-    wrapper = mount(RestaurantList, {localVue, store});
-  });
   it('loads restaurants on mount', () => {
+    mountWithStore();
     expect(restaurantsModule.actions.load).toHaveBeenCalled();
   });
+  describe('when loading succeeds', () => {
+    beforeEach(() => {
+      mountWithStore();
+    });
 
-  it('displays the restaurants', () => {
-    expect(findByTestId(wrapper, 'restaurant', 0).text()).toBe('Sushi Place');
-    expect(findByTestId(wrapper, 'restaurant', 1).text()).toBe('Pizza Place');
+    it('displays the restaurants', () => {
+      expect(findByTestId(wrapper, 'restaurant', 0).text()).toBe('Sushi Place');
+      expect(findByTestId(wrapper, 'restaurant', 1).text()).toBe('Pizza Place');
+    });
+
+    it('does not display the loading indicator when not loading', () => {
+      expect(findByTestId(wrapper, 'loading-indicator').exists()).toBe(false);
+    });
+
+    it('does not display an error message', () => {
+      expect(findByTestId(wrapper, 'loading-error').exists()).toEqual(false);
+    })
+  });
+
+  describe('when loading fails', () => {
+    it('displays an error message', () => {
+      mountWithStore({loadError: true});
+      expect(findByTestId(wrapper, 'loading-error').exists()).toBe(true);
+    });
+  });
+
+  it('displays the loading indicator while loading', () => {
+    mountWithStore({loading: true});
+    expect(findByTestId(wrapper, 'loading-indicator').exists()).toBe(true);
   });
 });
