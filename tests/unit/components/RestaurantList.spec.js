@@ -3,14 +3,8 @@ import Vuetify from 'vuetify';
 import Vuex from 'vuex';
 import {createLocalVue, mount} from '@vue/test-utils';
 import RestaurantList from '@/components/RestaurantList';
+import {findByTestId} from '../testHelpers';
 
-const findByTestId = (wrapper, testId, index = -1) => {
-  if (index > -1) {
-    return wrapper.findAll(`[data-testid="${testId}"]`).at(index);
-  } else {
-    return wrapper.find(`[data-testid="${testId}"]`);
-  }
-};
 
 describe('RestaurantList', () => {
   Vue.use(Vuetify);
