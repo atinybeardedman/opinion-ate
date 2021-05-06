@@ -4,11 +4,11 @@ import Vuex from 'vuex';
 import {createLocalVue, mount} from '@vue/test-utils';
 import RestaurantList from '@/components/RestaurantList';
 
-const findByTestId = (wrapper, testId, index) => {
-  if (typeof index === 'undefined') {
-    return wrapper.find(`[data-testid="${testId}"]`);
-  } else {
+const findByTestId = (wrapper, testId, index = -1) => {
+  if (index > -1) {
     return wrapper.findAll(`[data-testid="${testId}"]`).at(index);
+  } else {
+    return wrapper.find(`[data-testid="${testId}"]`);
   }
 };
 
@@ -60,7 +60,7 @@ describe('RestaurantList', () => {
 
     it('does not display an error message', () => {
       expect(findByTestId(wrapper, 'loading-error').exists()).toEqual(false);
-    })
+    });
   });
 
   describe('when loading fails', () => {
