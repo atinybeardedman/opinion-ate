@@ -59,8 +59,9 @@ describe('NewRestaurantForm', () => {
     });
 
     it('clears the name', () => {
-      const fieldEl = findByTestId(wrapper, 'new-restaurant-name-field').element;
+      const fieldEl = findByTestId(wrapper, 'new-restaurant-name-field')
+        .element;
       expect(fieldEl.value).toEqual('');
-    })
+    });
   });
 });

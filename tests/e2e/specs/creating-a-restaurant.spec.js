@@ -32,5 +32,6 @@ describe('Creating a Restaurant', () => {
     });
 
     cy.contains(restaurantName);
+    cy.get('[placeholder="Add Restaurant"]').should('have.value', '');
   });
 });
