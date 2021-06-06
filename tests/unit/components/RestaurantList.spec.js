@@ -5,7 +5,6 @@ import {createLocalVue, mount} from '@vue/test-utils';
 import RestaurantList from '@/components/RestaurantList';
 import {findByTestId} from '../testHelpers';
 
-
 describe('RestaurantList', () => {
   Vue.use(Vuetify);
   const records = [

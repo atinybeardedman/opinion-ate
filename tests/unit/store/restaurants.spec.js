@@ -21,7 +21,7 @@ describe('restaurants', () => {
     });
     it('does not have an error flag set', () => {
       expect(store.state.restaurants.loadError).toEqual(false);
-    })
+    });
   });
 
   describe('load action', () => {
@@ -76,7 +76,7 @@ describe('restaurants', () => {
 
       it('clears the loading flag', () => {
         expect(store.state.restaurants.loading).toEqual(false);
-      })
+      });
     });
 
     describe('while loading', () => {
@@ -92,7 +92,7 @@ describe('restaurants', () => {
           },
         });
         store.dispatch('restaurants/load');
-      })
+      });
 
       it('sets a loading flag', () => {
         expect(store.state.restaurants.loading).toEqual(true);
@@ -100,7 +100,7 @@ describe('restaurants', () => {
 
       it('clears the error flag', () => {
         expect(store.state.restaurants.loadError).toEqual(false);
-      })
+      });
     });
   });
 });
