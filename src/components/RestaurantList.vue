@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-alert v-if="loadError" type="error" data-testid="loading-error">
       Restaurants could not be loaded
     </v-alert>

@@ -1,0 +1,64 @@
+<template>
+  <form @submit.prevent="handleSave">
+    <v-alert
+      v-if="validationError"
+      type="error"
+      data-testid="new-restaurant-name-error"
+      >Name is required</v-alert
+    >
+    <v-alert
+      v-if="serverError"
+      type="error"
+      data-testid="new-restaurant-server-error"
+      >The restaurant could not be saved. Please try again.</v-alert
+    >
+    <v-text-field
+      placeholder="Add Restaurant"
+      filled
+      type="text"
+      v-model="name"
+      data-testid="new-restaurant-name-field"
+    ></v-text-field>
+    <v-btn
+      color="primary"
+      class="black--text"
+      data-testid="new-restaurant-submit-button"
+      type="submit"
+      >Add</v-btn
+    >
+  </form>
+</template>
+
+<script>
+import {mapActions} from 'vuex';
+export default {
+  name: 'NewRestaurantForm',
+  data() {
+    return {
+      name: '',
+      validationError: false,
+      serverError: false,
+    };
+  },
+  methods: {
+    ...mapActions({
+      createRestaurant: 'restaurants/create',
+    }),
+    handleSave() {
+      if (!this.name) {
+        this.validationError = true;
+      } else {
+        this.validationError = false;
+        this.serverError = false;
+        this.createRestaurant(this.name)
+          .then(() => {
+            this.name = '';
+          })
+          .catch(() => {
+            this.serverError = true;
+          });
+      }
+    },
+  },
+};
+</script>

@@ -9,6 +9,9 @@ const api = {
   loadRestaurants() {
     return client.get('/restaurants').then(resp => resp.data);
   },
+  createRestaurant(name) {
+    return client.post('/restaurants', {name}).then(resp => resp.data);
+  },
 };
 
 export default api;
